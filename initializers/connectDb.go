@@ -22,5 +22,9 @@ func ConnectDb() {
 	DB = db
 
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Foods{})
+	DB.AutoMigrate(&models.Shows{})
+	DB.AutoMigrate(&models.FoodEated{})
+	DB.AutoMigrate(&models.ShowWatched{})
 
 }
