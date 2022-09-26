@@ -7,4 +7,5 @@ type Foods struct {
 	Name    string
 	Country string
 	Type    string
+	Eated   []Eated `gorm:"foreignkey:FoodsID"`
 }

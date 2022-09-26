@@ -24,7 +24,7 @@ func ConnectDb() {
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Foods{})
 	DB.AutoMigrate(&models.Shows{})
-	DB.AutoMigrate(&models.FoodEated{})
-	DB.AutoMigrate(&models.ShowWatched{})
+	DB.AutoMigrate(&models.Eated{})
+	DB.AutoMigrate(&models.Watched{})
 
 }

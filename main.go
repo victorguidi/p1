@@ -25,6 +25,8 @@ func main() {
 	r.GET("/shows", middleware.ValidateJwt, controllers.GetShows)
 	r.GET("/shows/:id", middleware.ValidateJwt, controllers.GetOneShow)
 	r.POST("/shows", middleware.ValidateJwt, controllers.AddShows)
+	r.POST("/watched", middleware.ValidateJwt, controllers.AddWatchedShows)
+	r.GET("/watched/:id", middleware.ValidateJwt, controllers.GetWatched)
 
 	//Routes for Foods
 	r.GET("/foods", middleware.ValidateJwt, controllers.GetFoods)

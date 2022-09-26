@@ -1,10 +1,14 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
-type ShowWatched struct {
+type Watched struct {
 	gorm.Model
-	User User
-	Show Shows
-	rate float32
+	UserID  int
+	User    User
+	ShowsID int
+	Shows   Shows
+	grade   float32 `sql:"type:decimal(10,2);"`
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -77,5 +78,57 @@ func AddShows(c *gin.Context) {
 
 	// respond
 	c.JSON(http.StatusOK, gin.H{})
+
+}
+
+func AddWatchedShows(c *gin.Context) {
+	var body struct {
+		UserID  int
+		ShowsID int
+	}
+
+	if c.Bind(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to read body",
+		})
+
+		return
+	}
+
+	// create the user
+	watched := models.Watched{UserID: body.UserID, ShowsID: body.ShowsID}
+
+	result := initializers.DB.Create(&watched)
+
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to create show",
+		})
+
+		return
+	}
+
+	// respond
+	c.JSON(http.StatusOK, gin.H{})
+
+}
+
+func GetWatched(c *gin.Context) {
+	id := c.Param("id")
+	log.Println("wtf")
+	// get all the Movies and Shows in the DB
+	var watched []models.Watched
+	result := initializers.DB.Where("user_id", id).Preload("Users").Find(&watched)
+	// if result.Error != nil {
+	// 	c.JSON(http.StatusNoContent, gin.H{
+	// 		"error": "Couldn't get the data",
+	// 	})
+	// }
+	log.Println(result)
+
+	// Return data
+	c.JSON(http.StatusOK, gin.H{
+		"shows": watched,
+	})
 
 }
