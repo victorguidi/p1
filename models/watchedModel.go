@@ -6,9 +6,9 @@ import (
 
 type Watched struct {
 	gorm.Model
-	UserID  int
+	Grade   uint
+	UserID  int `sql:"index"`
 	User    User
-	ShowsID int
+	ShowsID int `sql:"index"`
 	Shows   Shows
-	grade   float32 `sql:"type:decimal(10,2);"`
 }

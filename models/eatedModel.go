@@ -6,9 +6,9 @@ import (
 
 type Eated struct {
 	gorm.Model
+	Grade   uint
 	UserID  int
 	User    User
 	FoodsID int
 	Foods   Foods
-	grade   float32 `sql:"type:decimal(10,2);"`
 }

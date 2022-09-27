@@ -2,14 +2,13 @@ package middleware
 
 import (
 	"fmt"
-	"net/http"
-	"os"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/victorguidi/initializers"
 	"github.com/victorguidi/models"
+	"net/http"
+	"os"
+	"time"
 )
 
 func ValidateJwt(c *gin.Context) {
@@ -50,9 +49,8 @@ func ValidateJwt(c *gin.Context) {
 		}
 
 		// attach to req
-		c.Set("user", user)
 
-		//continue
+		c.Set("user", claims["sub"])
 		c.Next()
 
 	} else {

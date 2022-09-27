@@ -123,3 +123,23 @@ func ValidateJwt(c *gin.Context) {
 		"message": "Logged in",
 	})
 }
+
+func GetOneUser(c *gin.Context) {
+	id := c.Param("id")
+
+	var user models.User
+	// result := initializers.DB.Where("id", id).Preload("Watched").Preload("Eated").Find(&user)
+	result := initializers.DB.First(&user, id)
+
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to Find User",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+
+}

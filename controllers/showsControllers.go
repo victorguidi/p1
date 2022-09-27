@@ -12,7 +12,7 @@ import (
 func GetShows(c *gin.Context) {
 	// get all the Movies and Shows in the DB
 	var shows []models.Shows
-	result := initializers.DB.Find(&shows)
+	result := initializers.DB.Model(&models.Shows{}).Preload("Watched").Find(&shows)
 
 	if result.Error != nil {
 		c.JSON(http.StatusNoContent, gin.H{
@@ -83,6 +83,7 @@ func AddShows(c *gin.Context) {
 
 func AddWatchedShows(c *gin.Context) {
 	var body struct {
+		Grade   uint
 		UserID  int
 		ShowsID int
 	}
@@ -96,7 +97,7 @@ func AddWatchedShows(c *gin.Context) {
 	}
 
 	// create the user
-	watched := models.Watched{UserID: body.UserID, ShowsID: body.ShowsID}
+	watched := models.Watched{Grade: body.Grade, UserID: body.UserID, ShowsID: body.ShowsID}
 
 	result := initializers.DB.Create(&watched)
 
@@ -114,11 +115,11 @@ func AddWatchedShows(c *gin.Context) {
 }
 
 func GetWatched(c *gin.Context) {
-	id := c.Param("id")
-	log.Println("wtf")
+
+	id, _ := c.Get("user")
 	// get all the Movies and Shows in the DB
 	var watched []models.Watched
-	result := initializers.DB.Where("user_id", id).Preload("Users").Find(&watched)
+	result := initializers.DB.Where("user_id", id).Preload("User").Preload("Shows").Find(&watched)
 	// if result.Error != nil {
 	// 	c.JSON(http.StatusNoContent, gin.H{
 	// 		"error": "Couldn't get the data",
